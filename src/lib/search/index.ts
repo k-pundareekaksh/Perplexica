@@ -1,7 +1,10 @@
 import MetaSearchAgent from '@/lib/search/metaSearchAgent';
 import prompts from '../prompts';
 
-export const searchHandlers: Record<string, MetaSearchAgent> = {
+import { TriangulateNewsAgent } from './triangulateNewsAgent';
+import { searchSearxng } from '../searxng';
+
+export const searchHandlers: Record<string, any> = {
   webSearch: new MetaSearchAgent({
     activeEngines: [],
     queryGeneratorPrompt: prompts.webSearchRetrieverPrompt,
@@ -56,4 +59,5 @@ export const searchHandlers: Record<string, MetaSearchAgent> = {
     rerankThreshold: 0.3,
     searchWeb: true,
   }),
+  triangulateNews: new TriangulateNewsAgent(searchSearxng),
 };

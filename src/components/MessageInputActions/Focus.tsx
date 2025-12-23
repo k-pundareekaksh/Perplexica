@@ -5,6 +5,7 @@ import {
   Pencil,
   ScanEye,
   SwatchBook,
+  Triangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -17,7 +18,7 @@ import { SiReddit, SiYoutube } from '@icons-pack/react-simple-icons';
 import { Fragment } from 'react';
 import { useChat } from '@/lib/hooks/useChat';
 
-const focusModes = [
+export const focusModes = [
   {
     key: 'webSearch',
     title: 'All',
@@ -53,6 +54,12 @@ const focusModes = [
     title: 'Reddit',
     description: 'Search for discussions and opinions',
     icon: <SiReddit className="h-[16px] w-auto mr-0.5" />,
+  },
+  {
+    key: 'triangulateNews',
+    title: 'Triangulate',
+    description: 'Compare reporting across multiple news sources',
+    icon: <Triangle size={16} />,
   },
 ];
 

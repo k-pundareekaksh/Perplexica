@@ -20,6 +20,7 @@ import SearchVideos from './SearchVideos';
 import { useSpeech } from 'react-text-to-speech';
 import ThinkBox from './ThinkBox';
 import { useChat, Section } from '@/lib/hooks/useChat';
+import TriangulateView from './TriangulateView';
 import Citation from './Citation';
 
 const ThinkTagProcessor = ({
@@ -111,15 +112,40 @@ const MessageBox = ({
 
             {section.assistantMessage && (
               <>
-                <Markdown
-                  className={cn(
-                    'prose prose-h1:mb-3 prose-h2:mb-2 prose-h2:mt-6 prose-h2:font-[800] prose-h3:mt-4 prose-h3:mb-1.5 prose-h3:font-[600] dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 font-[400]',
-                    'max-w-none break-words text-black dark:text-white',
-                  )}
-                  options={markdownOverrides}
-                >
-                  {parsedMessage}
-                </Markdown>
+                {(() => {
+                  let triangulationData = null;
+                  try {
+                    const parsed = JSON.parse(section.assistantMessage!.content);
+                    if (
+                      parsed?.focus === 'triangulateNews' &&
+                      parsed.triangulation
+                    ) {
+                      triangulationData = parsed.triangulation;
+                    }
+                  } catch (e) {
+                    // ignore
+                  }
+
+                  if (triangulationData) {
+                    return (
+                      <div className="mt-4 w-full">
+                        <TriangulateView data={triangulationData} />
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <Markdown
+                      className={cn(
+                        'prose prose-h1:mb-3 prose-h2:mb-2 prose-h2:mt-6 prose-h2:font-[800] prose-h3:mt-4 prose-h3:mb-1.5 prose-h3:font-[600] dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 font-[400]',
+                        'max-w-none break-words text-black dark:text-white',
+                      )}
+                      options={markdownOverrides}
+                    >
+                      {section.assistantMessage?.content || ''}
+                    </Markdown>
+                  );
+                })()}
 
                 {loading && isLast ? null : (
                   <div className="flex flex-row items-center justify-between w-full text-black dark:text-white py-4 -mx-2">
@@ -216,7 +242,7 @@ const MessageBox = ({
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 };
 

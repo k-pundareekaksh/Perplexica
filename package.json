@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format:write": "prettier . --write"
+    "format:write": "prettier . --write",
+    "test": "sh ./test.sh"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
